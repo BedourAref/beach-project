@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
 
-function AddBeachHero() {
+function AddBeachHero({ isEditMode = false }) {
+  const title = isEditMode ? "تعديل بيانات الشاطئ" : "إضافة شاطئ جديد";
+  const subtitle = isEditMode
+    ? "راجع البيانات التالية وعدلها ثم احفظ التحديثات. الحقول المميزة بعلامة * مطلوبة."
+    : "املأ البيانات التالية لإضافة شاطئ جديد إلى النظام. جميع الحقول المميزة بعلامة * مطلوبة.";
+
   return (
     <section className="mb-4" dir="rtl">
       <div className="text-end mb-2">
@@ -14,11 +19,8 @@ function AddBeachHero() {
           <div className="d-flex align-items-center gap-2">
             <div className="add-beach-hero__plus">+</div>
             <div className="text-end">
-              <h1 className="add-beach-hero__title mb-1">إضافة شاطئ جديد</h1>
-              <p className="add-beach-hero__subtitle mb-0">
-                املأ البيانات التالية لإضافة شاطئ جديد إلى النظام. جميع الحقول
-                المميزة بعلامة * مطلوبة.
-              </p>
+              <h1 className="add-beach-hero__title mb-1">{title}</h1>
+              <p className="add-beach-hero__subtitle mb-0">{subtitle}</p>
             </div>
           </div>
 

@@ -1,5 +1,5 @@
-import { useMemo, useState } from "react";
-import Modal from "../components/Modal";
+import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
 import BeachDetailsCard from "../components/dashboard/BeachDetailsCard";
 import StatsSection from "../components/dashboard/StatsSection";
@@ -11,10 +11,24 @@ import {
 } from "../components/dashboard/MetricIcons";
 import useFetch from "../hooks/useFetch";
 import { getPosts } from "../services/api";
+import { dashboardAssets } from "../assets/dashboardAssets";
 
 function Home() {
   const { data: posts, isLoading, error, refetch } = useFetch(getPosts);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const beachToEdit = useMemo(
+    () => ({
+      beachName: "شاطئ الأحلام",
+      location: "الساحل الشمالي، مصر",
+      description:
+        "شاطئ خاص فاخر يوفر تجربة استرخاء فريدة مع مياه صافية ورمال ناعمة وأنشطة مائية متنوعة.",
+      ticketPrice: "50",
+      capacity: "100",
+      imageUrl: dashboardAssets.beachCover,
+    }),
+    []
+  );
 
   const stats = useMemo(() => {
     const bookingRatio = posts.length
@@ -94,17 +108,16 @@ function Home() {
 
       <StatsSection stats={stats} />
 
-      <BeachDetailsCard onEdit={() => setIsEditModalOpen(true)} />
-
-      <Modal
-        title="تعديل بيانات الشاطئ"
-        show={isEditModalOpen}
-        onClose={() => setIsEditModalOpen(false)}
-      >
-        <p className="mb-0 text-end">
-          هذه نافذة تجريبية. يمكنك ربطها لاحقًا بنموذج تعديل حقيقي أو API.
-        </p>
-      </Modal>
+      <BeachDetailsCard
+        onEdit={() =>
+          navigate("/beaches/add", {
+            state: {
+              mode: "edit",
+              beach: beachToEdit,
+            },
+          })
+        }
+      />
 
       <div className="dashboard-help-banner mt-4 p-3 p-lg-4 rounded-4 text-white d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-2">
         <div className="text-end">

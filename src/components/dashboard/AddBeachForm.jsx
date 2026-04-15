@@ -1,6 +1,7 @@
 import Button from "../Button";
 
 function AddBeachForm({
+  isEditMode = false,
   values,
   errors,
   canSubmit,
@@ -9,11 +10,16 @@ function AddBeachForm({
   onSubmit,
   onCancel,
 }) {
+  const submitLabel = isEditMode ? "حفظ التعديلات" : "+ حفظ وإضافة الشاطئ";
+  const successMessage = isEditMode
+    ? "تم تحديث بيانات الشاطئ بنجاح."
+    : "تم حفظ بيانات الشاطئ بنجاح.";
+
   return (
     <form className="add-beach-form" dir="rtl" onSubmit={onSubmit} noValidate>
       <div className="d-flex align-items-center justify-content-between mb-3">
         <h2 className="add-beach-form__title mb-0">
-          الخطوة 1: المعلومات الأساسية
+          {isEditMode ? "الخطوة 1: تعديل المعلومات الأساسية" : "الخطوة 1: المعلومات الأساسية"}
         </h2>
         <span className="badge text-primary border border-primary-subtle bg-primary-subtle">
           مطلوب
@@ -175,7 +181,7 @@ function AddBeachForm({
 
       {isSubmitted ? (
         <div className="alert alert-success text-end mb-3">
-          تم حفظ بيانات الشاطئ بنجاح.
+          {successMessage}
         </div>
       ) : null}
 
@@ -193,7 +199,7 @@ function AddBeachForm({
           className="add-beach-form__submit px-4"
           disabled={!canSubmit}
         >
-          + حفظ وإضافة الشاطئ
+          {submitLabel}
         </Button>
       </div>
     </form>

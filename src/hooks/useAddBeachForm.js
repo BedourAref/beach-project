@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const INITIAL_VALUES = {
   beachName: "",
@@ -9,10 +9,32 @@ const INITIAL_VALUES = {
   imageUrl: "",
 };
 
-function useAddBeachForm() {
-  const [values, setValues] = useState(INITIAL_VALUES);
+const buildFormValues = (sourceValues) => ({
+  beachName: sourceValues?.beachName ?? "",
+  location: sourceValues?.location ?? "",
+  description: sourceValues?.description ?? "",
+  ticketPrice: sourceValues?.ticketPrice ?? "",
+  capacity: sourceValues?.capacity ?? "",
+  imageUrl: sourceValues?.imageUrl ?? "",
+});
+
+function useAddBeachForm(initialValues = null, options = {}) {
+  const { isEditMode = false } = options;
+
+  const resolvedInitialValues = useMemo(
+    () => buildFormValues(initialValues ?? INITIAL_VALUES),
+    [initialValues]
+  );
+
+  const [values, setValues] = useState(resolvedInitialValues);
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  useEffect(() => {
+    setValues(resolvedInitialValues);
+    setErrors({});
+    setIsSubmitted(false);
+  }, [resolvedInitialValues]);
 
   const canSubmit = useMemo(() => {
     return (
@@ -39,7 +61,7 @@ function useAddBeachForm() {
   };
 
   const resetForm = () => {
-    setValues(INITIAL_VALUES);
+    setValues(isEditMode ? resolvedInitialValues : INITIAL_VALUES);
     setErrors({});
     setIsSubmitted(false);
   };
