@@ -19,7 +19,9 @@ function AddBeachForm({
     <form className="add-beach-form" dir="rtl" onSubmit={onSubmit} noValidate>
       <div className="d-flex align-items-center justify-content-between mb-3">
         <h2 className="add-beach-form__title mb-0">
-          {isEditMode ? "الخطوة 1: تعديل المعلومات الأساسية" : "الخطوة 1: المعلومات الأساسية"}
+          {isEditMode
+            ? "الخطوة 1: تعديل المعلومات الأساسية"
+            : "الخطوة 1: المعلومات الأساسية"}
         </h2>
         <span className="badge text-primary border border-primary-subtle bg-primary-subtle">
           مطلوب

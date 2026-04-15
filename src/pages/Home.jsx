@@ -27,7 +27,7 @@ function Home() {
       capacity: "100",
       imageUrl: dashboardAssets.beachCover,
     }),
-    []
+    [],
   );
 
   const stats = useMemo(() => {

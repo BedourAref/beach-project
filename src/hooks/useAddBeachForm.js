@@ -23,7 +23,7 @@ function useAddBeachForm(initialValues = null, options = {}) {
 
   const resolvedInitialValues = useMemo(
     () => buildFormValues(initialValues ?? INITIAL_VALUES),
-    [initialValues]
+    [initialValues],
   );
 
   const [values, setValues] = useState(resolvedInitialValues);
